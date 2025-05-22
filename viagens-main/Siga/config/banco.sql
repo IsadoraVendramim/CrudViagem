@@ -1,21 +1,16 @@
-create database siga;
-use siga;
+create database viagem;
+use viagem;
 
-create table atividade(
-id int auto_increment primary key,
-descricao varchar(250),
-peso decimal(16,2),
-anexo varchar(250) );
-
-
-create table usuario(
-id int auto_increment primary key,
-nome varchar(250),
-email varchar(250),
-senha varchar(250),
-matricula varchar(250),
-contato varchar(250) );
+CREATE TABLE viagem (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    destino VARCHAR(100) NOT NULL,
+    data_ida DATE NOT NULL,
+    data_volta DATE NOT NULL,
+    responsavel VARCHAR(100) NOT NULL,
+    motivo TEXT NOT NULL,
+    documento VARCHAR(255)
+);
 
 
-select * from atividade;
+select * from viagem;
 -- script de criação do banco de dados
