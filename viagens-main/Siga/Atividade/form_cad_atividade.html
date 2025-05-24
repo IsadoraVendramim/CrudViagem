@@ -1,23 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Atividades</title>
+    <title>Cadastro de Viagens</title>
 </head>
 <body>
-    <h1>Manutenção de Atividades</h1>
-    <form action="index.php" method="post" enctype="multipart/form-data">
+    <h1>Cadastro de Viagens</h1>
+    <form action="index.php" method="post">
         <fieldset>
             <legend>Formulário</legend>
             <label for="id">Id:</label>
-            <input type="text" name="id" readonly value={id}>
-            <label for="descricao">Descricao:</label>
-            <input type="text" name="descricao" value={descricao}>
-            <label for="peso">Peso:</label>
-            <input type="text" name="peso" value={peso}>
-            <label for="anexo">Anexo:</label>
-            <input type="file" name="anexo" value={anexo}>
+            <input type="text" name="id" readonly value="{id}">
+            
+            <label for="destino">Destino:</label>
+            <input type="text" name="destino" value="{destino}">
+
+            <label for="data_saida">Data de Saída:</label>
+            <input type="date" name="data_saida" value="{data_saida}">
+
+            <label for="data_retorno">Data de Retorno:</label>
+            <input type="date" name="data_retorno" value="{data_retorno}">
+
+            <label for="descricao">Descrição:</label>
+            <textarea name="descricao">{descricao}</textarea>
+
             <button type="submit" name="acao" value="salvar">Salvar</button>
             <button type="submit" name="acao" value="excluir">Excluir</button>
             <input type="reset" value="Cancelar">
