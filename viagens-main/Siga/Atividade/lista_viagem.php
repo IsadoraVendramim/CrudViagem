@@ -1,20 +1,20 @@
 <?php
-    require_once("../Classes/Atividade.class.php");
-    $busca = isset($_GET['busca'])?$_GET['busca']:0;
-    $tipo = isset($_GET['tipo'])?$_GET['tipo']:0;
-   
-    $lista = Atividade::listar($tipo, $busca);
-    $itens = '';
-    foreach($lista as $atividade){
-        $item = file_get_contents('itens_listagem_atividades.html');
-        $item = str_replace('{id}',$atividade->getId(),$item);
-        $item = str_replace('{descricao}',$atividade->getDescricao(),$item);
-        $item = str_replace('{peso}',$atividade->getPeso(),$item);
-        $item = str_replace('{anexo}',$atividade->getAnexo(),$item);
-        $itens .= $item;
-    }
-    $listagem = file_get_contents('listagem_atividade.html');
-    $listagem = str_replace('{itens}',$itens,$listagem);
-    print($listagem);
-     
+require_once("../Classes/Viagem.class.php");
+
+$lista = Viagem::listar();
+$tabela = file_get_contents('tabela_viagens.html');
+$item = file_get_contents('itens_listagem_viagens.html');
+$itens = '';
+
+foreach ($lista as $viagem) {
+    $linha = str_replace('{id}', $viagem->getId(), $item);
+    $linha = str_replace('{destino}', $viagem->getDestino(), $linha);
+    $linha = str_replace('{data_saida}', $viagem->getDataSaida(), $linha);
+    $linha = str_replace('{data_retorno}', $viagem->getDataRetorno(), $linha);
+    $linha = str_replace('{descricao}', $viagem->getDescricao(), $linha);
+    $itens .= $linha;
+}
+
+$tabela = str_replace('{itens}', $itens, $tabela);
+echo $tabela;
 ?>

@@ -1,20 +1,18 @@
-<h2>Lista de Viagens</h2>
-
-<form action="lista_viagem.php" method="get">
-    <input type="text" name="filtro" placeholder="Buscar por destino">
-    <button type="submit">Buscar</button>
-</form>
-
-<table border="1" width="100%">
-    <tr>
-        <th>ID</th>
-        <th>Destino</th>
-        <th>Data de Ida</th>
-        <th>Data de Volta</th>
-        <th>Responsável</th>
-        <th>Motivo</th>
-        <th>Documento</th>
-        <th>Ações</th>
-    </tr>
-    {itens}
-</table>
+<fieldset>
+    <legend>Lista de Viagens</legend>
+    <table border="1" width="100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Destino</th>
+                <th>Data de Saída</th>
+                <th>Data de Retorno</th>
+                <th>Descrição</th>
+                <th>Alterar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {itens}
+        </tbody>
+    </table>
+</fieldset>

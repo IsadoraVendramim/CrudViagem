@@ -1,4 +1,13 @@
-<tr><td><a href='index.php?id={id}'>{id}</a></td>
-<td>{descricao}</td>
-<td>{peso}</td>
-<td>{anexo}</td></tr>
+<tr>
+    <td>{id}</td>
+    <td>{destino}</td>
+    <td>{data_saida}</td>
+    <td>{data_retorno}</td>
+    <td>{descricao}</td>
+    <td>
+        <form action="index.php" method="get">
+            <input type="hidden" name="id" value="{id}">
+            <button type="submit">Alterar</button>
+        </form>
+    </td>
+</tr>
