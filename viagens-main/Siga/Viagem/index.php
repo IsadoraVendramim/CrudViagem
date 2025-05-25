@@ -7,7 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data_saida = $_POST['data_saida'] ?? "";
     $data_retorno = $_POST['data_retorno'] ?? "";
     $descricao = $_POST['descricao'] ?? "";
-    $documento = "";
     $acao = $_POST['acao'] ?? "";
 
      // Upload usando o campo "descricao" como arquivo
@@ -16,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $destino_documento = 'uploads/' . $nomeArquivo;
 
         if (move_uploaded_file($_FILES['descricao']['tmp_name'], $destino_documento)) {
-            $documento = $destino_documento;
+            $descricao = $destino_documento;
         }
     }
     $viagem = new Viagem($id, $destino, $data_saida, $data_retorno, $descricao);
@@ -45,14 +44,13 @@ elseif ($_SERVER['REQUEST_METHOD'] == 'GET') {
         $formulario = str_replace('{data_saida}', $viagem->getDataSaida(), $formulario);
         $formulario = str_replace('{data_retorno}', $viagem->getDataRetorno(), $formulario);
         $formulario = str_replace('{descricao}', $viagem->getDescricao(), $formulario);
-         $formulario = str_replace('{documento}', $viagem->getDocumento(), $formulario);
     } else {
         $formulario = str_replace('{id}', 0, $formulario);
         $formulario = str_replace('{destino}', '', $formulario);
         $formulario = str_replace('{data_saida}', '', $formulario);
         $formulario = str_replace('{data_retorno}', '', $formulario);
         $formulario = str_replace('{descricao}', '', $formulario);
-        $formulario = str_replace('{documento}', '', $formulario);
+       
     }
 
     echo $formulario;
