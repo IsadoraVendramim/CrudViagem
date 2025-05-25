@@ -1,0 +1,50 @@
+<?php
+require_once("../Classes/Viagem.class.php");
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $id = $_POST['id'] ?? 0;
+    $destino = $_POST['destino'] ?? "";
+    $data_saida = $_POST['data_saida'] ?? "";
+    $data_retorno = $_POST['data_retorno'] ?? "";
+    $descricao = $_POST['descricao'] ?? "";
+    $acao = $_POST['acao'] ?? "";
+
+    $viagem = new Viagem($id, $destino, $data_saida, $data_retorno, $descricao);
+    
+    if ($acao == 'salvar') {
+        $resultado = ($id > 0) ? $viagem->alterar() : $viagem->inserir();
+    } elseif ($acao == 'excluir') {
+        $resultado = $viagem->excluir();
+    }
+
+    if ($resultado)
+        header("Location: index.php");
+    else
+        echo "Erro ao salvar dados: " . $viagem;
+}
+elseif ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    $formulario = file_get_contents('form_cad_viagem.html');
+
+    $id = $_GET['id'] ?? 0;
+    $resultado = Viagem::listar(1, $id);
+
+    if ($resultado) {
+        $viagem = $resultado[0];
+        $formulario = str_replace('{id}', $viagem->getId(), $formulario);
+        $formulario = str_replace('{destino}', $viagem->getDestino(), $formulario);
+        $formulario = str_replace('{data_saida}', $viagem->getDataSaida(), $formulario);
+        $formulario = str_replace('{data_retorno}', $viagem->getDataRetorno(), $formulario);
+        $formulario = str_replace('{descricao}', $viagem->getDescricao(), $formulario);
+    } else {
+        $formulario = str_replace('{id}', 0, $formulario);
+        $formulario = str_replace('{destino}', '', $formulario);
+        $formulario = str_replace('{data_saida}', '', $formulario);
+        $formulario = str_replace('{data_retorno}', '', $formulario);
+        $formulario = str_replace('{descricao}', '', $formulario);
+    }
+
+    echo $formulario;
+    include('lista_viagem.php');
+}
+
+?>
