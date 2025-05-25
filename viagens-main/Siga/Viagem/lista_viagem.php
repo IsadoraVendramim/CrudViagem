@@ -2,8 +2,8 @@
 require_once("../Classes/Viagem.class.php");
 
 $lista = Viagem::listar();
-$tabela = file_get_contents('tabela_viagens.html');
-$item = file_get_contents('itens_listagem_viagens.html');
+$tabela = file_get_contents('listagem_viagem.html');
+$item = file_get_contents('itens_listagem_viagem.html');
 $itens = '';
 
 foreach ($lista as $viagem) {

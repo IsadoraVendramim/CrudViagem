@@ -20,10 +20,12 @@
 
             <label for="data_retorno">Data de Retorno:</label>
             <input type="date" name="data_retorno" value="{data_retorno}">
-
-            <label for="descricao">Descrição:</label>
-            <textarea name="descricao">{descricao}</textarea>
-
+            <br>
+            <label for="descricao">Descrição/Documento:</label>
+            <input type="file" name="descricao" value="{descricao}"><br>
+            <small>Atual: {documento}</small><br>
+           
+            <br><br>
             <button type="submit" name="acao" value="salvar">Salvar</button>
             <button type="submit" name="acao" value="excluir">Excluir</button>
             <input type="reset" value="Cancelar">

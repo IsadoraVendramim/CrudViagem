@@ -1,4 +1,6 @@
 <?php
+require_once("Database.class.php");
+
 class Viagem {
     private $id;
     private $destino;
@@ -14,64 +16,129 @@ class Viagem {
         $this->descricao = $descricao;
     }
 
-    public function getId() { return $this->id; }
-    public function getDestino() { return $this->destino; }
-    public function getDataSaida() { return $this->data_saida; }
-    public function getDataRetorno() { return $this->data_retorno; }
-    public function getDescricao() { return $this->descricao; }
+    // Setters
+    public function setId($id) {
+        if ($id < 0)
+            throw new Exception("Erro: ID inválido!");
+        $this->id = $id;
+    }
 
+    public function setDestino($destino) {
+        if (empty($destino))
+            throw new Exception("Erro: Destino deve ser informado!");
+        $this->destino = $destino;
+    }
+
+    public function setDataSaida($data_saida) {
+        $this->data_saida = $data_saida;
+    }
+
+    public function setDataRetorno($data_retorno) {
+        $this->data_retorno = $data_retorno;
+    }
+
+    public function setDescricao($descricao) {
+        if (empty($descricao))
+            throw new Exception("Erro: Descrição deve ser informada!");
+        $this->descricao = $descricao;
+    }
+
+    // Getters
+    public function getId(): int {
+        return $this->id;
+    }
+
+    public function getDestino(): string {
+        return $this->destino;
+    }
+
+    public function getDataSaida(): string {
+        return $this->data_saida;
+    }
+
+    public function getDataRetorno(): string {
+        return $this->data_retorno;
+    }
+
+    public function getDescricao(): string {
+        return $this->descricao;
+    }
+
+    // Impressão da viagem
+    public function __toString(): string {
+        return "Viagem: $this->id - $this->destino
+                | Saída: $this->data_saida
+                | Retorno: $this->data_retorno
+                | Descrição: $this->descricao";
+    }
+
+    // Inserção
     public function inserir(): bool {
         $sql = "INSERT INTO viagem (destino, data_saida, data_retorno, descricao)
                 VALUES (:destino, :data_saida, :data_retorno, :descricao)";
-        $params = [
-            ':destino' => $this->destino,
-            ':data_saida' => $this->data_saida,
-            ':data_retorno' => $this->data_retorno,
-            ':descricao' => $this->descricao
-        ];
-        return Database::executar($sql, $params);
+        $params = array(
+            ':destino' => $this->getDestino(),
+            ':data_saida' => $this->getDataSaida(),
+            ':data_retorno' => $this->getDataRetorno(),
+            ':descricao' => $this->getDescricao()
+        );
+        return Database::executar($sql, $params) !== false;
     }
 
-    public function alterar(): bool {
-        $sql = "UPDATE viagem SET destino = :destino, data_saida = :data_saida,
-                data_retorno = :data_retorno, descricao = :descricao WHERE id = :id";
-        $params = [
-            ':id' => $this->id,
-            ':destino' => $this->destino,
-            ':data_saida' => $this->data_saida,
-            ':data_retorno' => $this->data_retorno,
-            ':descricao' => $this->descricao
-        ];
-        return Database::executar($sql, $params);
-    }
-
-    public function excluir(): bool {
-        $sql = "DELETE FROM viagem WHERE id = :id";
-        $params = [':id' => $this->id];
-        return Database::executar($sql, $params);
-    }
-
+    // Listar
     public static function listar($tipo = 0, $info = ''): array {
         $sql = "SELECT * FROM viagem";
-        $params = [];
-        if ($tipo == 1) {
-            $sql .= " WHERE id = :info";
-            $params = [':info' => $info];
+        switch ($tipo) {
+            case 1:
+                $sql .= " WHERE id = :info ORDER BY id";
+                break;
+            case 2:
+                $sql .= " WHERE destino LIKE :info ORDER BY destino";
+                $info = '%' . $info . '%';
+                break;
         }
 
-        $comando = Database::executar($sql, $params);
+        $parametros = [];
+        if ($tipo > 0) $parametros = [':info' => $info];
+
+        $comando = Database::executar($sql, $parametros);
         $viagens = [];
         while ($registro = $comando->fetch()) {
-            $viagens[] = new Viagem(
+            $viagem = new Viagem(
                 $registro['id'],
                 $registro['destino'],
                 $registro['data_saida'],
                 $registro['data_retorno'],
                 $registro['descricao']
             );
+            array_push($viagens, $viagem);
         }
         return $viagens;
     }
-}
 
+    // Alterar
+    public function alterar(): bool {
+        $sql = "UPDATE viagem
+                   SET destino = :destino,
+                       data_saida = :data_saida,
+                       data_retorno = :data_retorno,
+                       descricao = :descricao
+                 WHERE id = :id";
+        $params = array(
+            ':id' => $this->getId(),
+            ':destino' => $this->getDestino(),
+            ':data_saida' => $this->getDataSaida(),
+            ':data_retorno' => $this->getDataRetorno(),
+            ':descricao' => $this->getDescricao()
+        );
+        return Database::executar($sql, $params) !== false;
+    }
+
+    // Excluir
+    public function excluir(): bool {
+        $sql = "DELETE FROM viagem WHERE id = :id";
+        $params = array(':id' => $this->getId());
+        return Database::executar($sql, $params) !== false;
+    }
+}
 ?>
