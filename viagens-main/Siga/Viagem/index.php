@@ -6,7 +6,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $destino = $_POST['destino'] ?? "";
     $data_saida = $_POST['data_saida'] ?? "";
     $data_retorno = $_POST['data_retorno'] ?? "";
-    $descricao = ''; // Agora, descricao é o nome do arquivo enviado
+    //
+    $descricao = ''; 
 if (isset($_FILES['descricao']) && $_FILES['descricao']['error'] == UPLOAD_ERR_OK) {
     $nomeArquivo = basename($_FILES['descricao']['name']);
     $descricao = $nomeArquivo;
@@ -15,12 +16,7 @@ if (isset($_FILES['descricao']) && $_FILES['descricao']['error'] == UPLOAD_ERR_O
 
     $acao = $_POST['acao'] ?? "";
 
-    $caminho_anexo = '';
-    if (isset($_FILES['descricao']) && $_FILES['descricao']['error'] == UPLOAD_ERR_OK) {
-    $nomeArquivo = basename($_FILES['descricao']['name']);
-    $caminho_anexo = $nomeArquivo;
-    move_uploaded_file($_FILES['descricao']['tmp_name'], "../uploads/" . $nomeArquivo);
-}
+    
 
 
     $viagem = new Viagem($id, $destino, $data_saida, $data_retorno, $descricao, $caminho_anexo);
