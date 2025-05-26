@@ -3,11 +3,13 @@
     <td>{destino}</td>
     <td>{data_saida}</td>
     <td>{data_retorno}</td>
-    <td>{descricao}</td>
+    <td><a href="../uploads/{descricao}" target="_blank">{descricao} </a></td>
     <td>
         <form action="index.php" method="get">
             <input type="hidden" name="id" value="{id}">
             <button type="submit">Alterar</button>
         </form>
     </td>
+   
+
 </tr>

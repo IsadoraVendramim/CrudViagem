@@ -11,7 +11,16 @@ foreach ($lista as $viagem) {
     $linha = str_replace('{destino}', $viagem->getDestino(), $linha);
     $linha = str_replace('{data_saida}', $viagem->getDataSaida(), $linha);
     $linha = str_replace('{data_retorno}', $viagem->getDataRetorno(), $linha);
-    $linha = str_replace('{descricao}', $viagem->getDescricao(), $linha);
+    $descricao = $viagem->getDescricao();
+    $link = '';
+
+    if (!empty($descricao)) {
+    $link = "<a href='../uploads/" . htmlspecialchars($descricao) . "' target='_blank'>" . htmlspecialchars($descricao) . "</a>";
+} else {
+    $link = '';
+}
+
+    $linha = str_replace('{descricao}', $link, $linha);
     $itens .= $linha;
 }
 

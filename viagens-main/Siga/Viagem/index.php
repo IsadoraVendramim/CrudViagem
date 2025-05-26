@@ -6,55 +6,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $destino = $_POST['destino'] ?? "";
     $data_saida = $_POST['data_saida'] ?? "";
     $data_retorno = $_POST['data_retorno'] ?? "";
-    $descricao = $_POST['descricao'] ?? "";
+    $descricao = ''; // Agora, descricao é o nome do arquivo enviado
+if (isset($_FILES['descricao']) && $_FILES['descricao']['error'] == UPLOAD_ERR_OK) {
+    $nomeArquivo = basename($_FILES['descricao']['name']);
+    $descricao = $nomeArquivo;
+    move_uploaded_file($_FILES['descricao']['tmp_name'], "../uploads/" . $nomeArquivo);
+}
+
     $acao = $_POST['acao'] ?? "";
 
-     // Upload usando o campo "descricao" como arquivo
+    $caminho_anexo = '';
     if (isset($_FILES['descricao']) && $_FILES['descricao']['error'] == UPLOAD_ERR_OK) {
-        $nomeArquivo = basename($_FILES['descricao']['name']);
-        $destino_documento = 'uploads/' . $nomeArquivo;
+    $nomeArquivo = basename($_FILES['descricao']['name']);
+    $caminho_anexo = $nomeArquivo;
+    move_uploaded_file($_FILES['descricao']['tmp_name'], "../uploads/" . $nomeArquivo);
+}
 
-        if (move_uploaded_file($_FILES['descricao']['tmp_name'], $destino_documento)) {
-            $descricao = $destino_documento;
-        }
-    }
-    $viagem = new Viagem($id, $destino, $data_saida, $data_retorno, $descricao);
-    
+
+    $viagem = new Viagem($id, $destino, $data_saida, $data_retorno, $descricao, $caminho_anexo);
+
     if ($acao == 'salvar') {
         $resultado = ($id > 0) ? $viagem->alterar() : $viagem->inserir();
     } elseif ($acao == 'excluir') {
         $resultado = $viagem->excluir();
     }
 
-    if ($resultado)
-        header("Location: index.php");
-    else
-        echo "Erro ao salvar dados: " . $viagem;
-}
-elseif ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    header("Location: index.php");
+} elseif ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $formulario = file_get_contents('form_cad_viagem.html');
 
     $id = $_GET['id'] ?? 0;
-    $resultado = Viagem::listar(1, $id);
+    $viagem = Viagem::listar(1, $id)[0] ?? null;
 
-    if ($resultado) {
-        $viagem = $resultado[0];
-        $formulario = str_replace('{id}', $viagem->getId(), $formulario);
-        $formulario = str_replace('{destino}', $viagem->getDestino(), $formulario);
-        $formulario = str_replace('{data_saida}', $viagem->getDataSaida(), $formulario);
-        $formulario = str_replace('{data_retorno}', $viagem->getDataRetorno(), $formulario);
-        $formulario = str_replace('{descricao}', $viagem->getDescricao(), $formulario);
-    } else {
-        $formulario = str_replace('{id}', 0, $formulario);
-        $formulario = str_replace('{destino}', '', $formulario);
-        $formulario = str_replace('{data_saida}', '', $formulario);
-        $formulario = str_replace('{data_retorno}', '', $formulario);
-        $formulario = str_replace('{descricao}', '', $formulario);
-       
-    }
+    $formulario = str_replace('{id}', $viagem?->getId() ?? 0, $formulario);
+    $formulario = str_replace('{destino}', $viagem?->getDestino() ?? '', $formulario);
+    $formulario = str_replace('{data_saida}', $viagem?->getDataSaida() ?? '', $formulario);
+    $formulario = str_replace('{data_retorno}', $viagem?->getDataRetorno() ?? '', $formulario);
+    $formulario = str_replace('{descricao}', $viagem?->getDescricao() ?? '', $formulario);
 
     echo $formulario;
-    include('lista_viagem.php');
+    include_once('lista_viagem.php');
 }
-
 ?>
