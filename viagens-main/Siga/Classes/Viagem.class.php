@@ -16,7 +16,7 @@ class Viagem {
         $this->descricao = $descricao;
     }
 
-    // Setters
+    
     public function setId($id) {
         if ($id < 0)
             throw new Exception("Erro: ID inválido!");
@@ -43,7 +43,7 @@ class Viagem {
         $this->descricao = $descricao;
     }
 
-    // Getters
+  
     public function getId(): int {
         return $this->id;
     }
@@ -64,7 +64,7 @@ class Viagem {
         return $this->descricao;
     }
 
-    // Impressão da viagem
+
     public function __toString(): string {
         return "Viagem: $this->id - $this->destino
                 | Saída: $this->data_saida
@@ -72,7 +72,7 @@ class Viagem {
                 | Descrição: $this->descricao";
     }
 
-    // Inserção
+
     public function inserir(): bool {
         $sql = "INSERT INTO viagem (destino, data_saida, data_retorno, descricao)
                 VALUES (:destino, :data_saida, :data_retorno, :descricao)";
@@ -85,7 +85,7 @@ class Viagem {
         return Database::executar($sql, $params) !== false;
     }
 
-    // Listar
+   
     public static function listar($tipo = 0, $info = ''): array {
         $sql = "SELECT * FROM viagem";
         switch ($tipo) {
@@ -116,7 +116,7 @@ class Viagem {
         return $viagens;
     }
 
-    // Alterar
+  
     public function alterar(): bool {
         $sql = "UPDATE viagem
                    SET destino = :destino,
@@ -134,7 +134,7 @@ class Viagem {
         return Database::executar($sql, $params) !== false;
     }
 
-    // Excluir
+
     public function excluir(): bool {
         $sql = "DELETE FROM viagem WHERE id = :id";
         $params = array(':id' => $this->getId());
