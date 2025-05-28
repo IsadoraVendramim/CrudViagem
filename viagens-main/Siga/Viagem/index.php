@@ -6,8 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $destino = $_POST['destino'] ?? "";
     $data_saida = $_POST['data_saida'] ?? "";
     $data_retorno = $_POST['data_retorno'] ?? "";
-    //
-    $descricao = ''; 
+    $descricao = ''; //se foi enviado o arquivo
 if (isset($_FILES['descricao']) && $_FILES['descricao']['error'] == UPLOAD_ERR_OK) {
     $nomeArquivo = basename($_FILES['descricao']['name']);
     $descricao = $nomeArquivo;
@@ -16,11 +15,8 @@ if (isset($_FILES['descricao']) && $_FILES['descricao']['error'] == UPLOAD_ERR_O
 
     $acao = $_POST['acao'] ?? "";
 
-    
-
-
     $viagem = new Viagem($id, $destino, $data_saida, $data_retorno, $descricao, $caminho_anexo);
-
+    //cria obj viagem
     if ($acao == 'salvar') {
         $resultado = ($id > 0) ? $viagem->alterar() : $viagem->inserir();
     } elseif ($acao == 'excluir') {
