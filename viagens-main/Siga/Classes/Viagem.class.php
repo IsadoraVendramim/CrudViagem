@@ -102,6 +102,10 @@ class Viagem {
                 $sql .= " WHERE id = :info ORDER BY id";
                 break;
             case 2:
+                $sql .= " WHERE motivo LIKE :info ORDER BY motivo";
+                $info = '%' . $info . '%';
+                break;
+            case 3:
                 $sql .= " WHERE destino LIKE :info ORDER BY destino";
                 $info = '%' . $info . '%';
                 break;

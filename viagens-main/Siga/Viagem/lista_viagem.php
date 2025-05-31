@@ -12,11 +12,12 @@ foreach ($lista as $viagem) {
     $linha = str_replace('{data_ida}', $viagem->getDataIda(), $linha);
     $linha = str_replace('{data_retorno}', $viagem->getDataRetorno(), $linha);
     $linha = str_replace('{motivo}', $viagem->getMotivo(), $linha);
-    $documento = $viagem->getDocumento();
+    $linha = str_replace('{documento}', $viagem?->getDocumento() ?? '', $linha);
     $link = '';
 
+    $documento = $viagem?->getDocumento() ?? '';
     if (!empty($documento)) {
-    $link = "<a href='../uploads/" . htmlspecialchars($documento) . "' target='_blank'>" . htmlspecialchars($documento) . "</a>";
+    $link = "<a href='../uploads/" . htmlspecialchars($documento) . " target='_blank'>" . htmlspecialchars($documento) . "</a>";
 } else {
     $link = '';
 }
