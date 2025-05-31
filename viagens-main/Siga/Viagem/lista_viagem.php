@@ -9,18 +9,19 @@ $itens = '';
 foreach ($lista as $viagem) {
     $linha = str_replace('{id}', $viagem->getId(), $item);
     $linha = str_replace('{destino}', $viagem->getDestino(), $linha);
-    $linha = str_replace('{data_saida}', $viagem->getDataSaida(), $linha);
+    $linha = str_replace('{data_ida}', $viagem->getDataida(), $linha);
     $linha = str_replace('{data_retorno}', $viagem->getDataRetorno(), $linha);
-    $descricao = $viagem->getDescricao();
+     $linha = str_replace('{motivo}', $viagem->getMotivo(), $linha);
+    $documento = $viagem->getDocumento();
     $link = '';
 
-    if (!empty($descricao)) {
-    $link = "<a href='../uploads/" . htmlspecialchars($descricao) . "' target='_blank'>" . htmlspecialchars($descricao) . "</a>";
+    if (!empty($documento)) {
+    $link = "<a href='../uploads/" . htmlspecialchars($documento) . "' target='_blank'>" . htmlspecialchars($documento) . "</a>";
 } else {
     $link = '';
 }
 
-    $linha = str_replace('{descricao}', $link, $linha);
+    $linha = str_replace('{documento}', $link, $linha);
     $itens .= $linha;
 }
 

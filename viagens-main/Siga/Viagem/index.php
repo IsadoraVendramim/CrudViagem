@@ -4,18 +4,20 @@ require_once("../Classes/Viagem.class.php");
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST['id'] ?? 0;
     $destino = $_POST['destino'] ?? "";
-    $data_saida = $_POST['data_saida'] ?? "";
+    $data_ida = $_POST['data_saida'] ?? "";
     $data_retorno = $_POST['data_retorno'] ?? "";
-    $descricao = ''; //se foi enviado o arquivo
-if (isset($_FILES['descricao']) && $_FILES['descricao']['error'] == UPLOAD_ERR_OK) {
-    $nomeArquivo = basename($_FILES['descricao']['name']);
-    $descricao = $nomeArquivo;
-    move_uploaded_file($_FILES['descricao']['tmp_name'], "../uploads/" . $nomeArquivo);
+    $motivo = $_POST['motivo'] ?? "";
+    $documento = '';
+
+if (isset($_FILES['documuneto']) && $_FILES['documuneto']['error'] == UPLOAD_ERR_OK) {
+    $nomeArquivo = basename($_FILES['documuneto']['name']);
+    $documuneto = $nomeArquivo;
+    move_uploaded_file($_FILES['documuneto']['tmp_name'], "../uploads/" . $nomeArquivo);
 }
 
     $acao = $_POST['acao'] ?? "";
 
-    $viagem = new Viagem($id, $destino, $data_saida, $data_retorno, $descricao, $caminho_anexo);
+    $viagem = new Viagem($id, $destino, $data_ida, $data_retorno, $motivo, $caminho_anexo);
     //cria obj viagem
     if ($acao == 'salvar') {
         $resultado = ($id > 0) ? $viagem->alterar() : $viagem->inserir();
@@ -32,9 +34,10 @@ if (isset($_FILES['descricao']) && $_FILES['descricao']['error'] == UPLOAD_ERR_O
 
     $formulario = str_replace('{id}', $viagem?->getId() ?? 0, $formulario);
     $formulario = str_replace('{destino}', $viagem?->getDestino() ?? '', $formulario);
-    $formulario = str_replace('{data_saida}', $viagem?->getDataSaida() ?? '', $formulario);
+    $formulario = str_replace('{data_ida}', $viagem?->getDataIda() ?? '', $formulario);
     $formulario = str_replace('{data_retorno}', $viagem?->getDataRetorno() ?? '', $formulario);
-    $formulario = str_replace('{descricao}', $viagem?->getDescricao() ?? '', $formulario);
+    $formulario = str_replace('{motivo}', $viagem?->getMotivo() ?? '', $formulario);
+     $formulario = str_replace('{documento}', $viagem?->getDocumeto() ?? '', $formulario);
 
     echo $formulario;
     include_once('lista_viagem.php');
