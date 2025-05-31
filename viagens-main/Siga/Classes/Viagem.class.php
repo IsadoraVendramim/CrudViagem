@@ -44,7 +44,7 @@ class Viagem {
 
     public function setDocumento($documento) {
         if (empty($documento))
-            throw new Exception("Erro:O documento não foiu adicionado!");
+            throw new Exception("Erro:O documento não foi adicionado!");
         $this->documento = $documento;
     }
 
@@ -133,7 +133,7 @@ class Viagem {
                    SET destino = :destino,
                        data_ida = :data_ida,
                        data_retorno = :data_retorno,
-                       motivo = motivo
+                       motivo = :motivo,
                        documento = :documento
                  WHERE id = :id";
         $params = array(
