@@ -9,9 +9,9 @@ $itens = '';
 foreach ($lista as $viagem) {
     $linha = str_replace('{id}', $viagem->getId(), $item);
     $linha = str_replace('{destino}', $viagem->getDestino(), $linha);
-    $linha = str_replace('{data_ida}', $viagem->getDataida(), $linha);
+    $linha = str_replace('{data_ida}', $viagem->getDataIda(), $linha);
     $linha = str_replace('{data_retorno}', $viagem->getDataRetorno(), $linha);
-     $linha = str_replace('{motivo}', $viagem->getMotivo(), $linha);
+    $linha = str_replace('{motivo}', $viagem->getMotivo(), $linha);
     $documento = $viagem->getDocumento();
     $link = '';
 

@@ -6,7 +6,6 @@ CREATE TABLE viagem (
     destino VARCHAR(100) NOT NULL,
     data_ida DATE NOT NULL,
     data_volta DATE NOT NULL,
-    responsavel VARCHAR(100) NOT NULL,
     motivo TEXT NOT NULL,
     documento VARCHAR(255)
 );

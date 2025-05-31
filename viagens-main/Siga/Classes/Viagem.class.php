@@ -4,16 +4,18 @@ require_once("Database.class.php");
 class Viagem {
     private $id;
     private $destino;
-    private $data_saida;
+    private $data_ida;
     private $data_retorno;
-    private $descricao;
+    private $motivo;
+    private $documento;
 
-    public function __construct($id, $destino, $data_saida, $data_retorno, $descricao) {
+    public function __construct($id, $destino, $data_ida, $data_retorno, $motivo, $documento) {
         $this->id = $id;
         $this->destino = $destino;
-        $this->data_saida = $data_saida;
+        $this->data_ida = $data_ida;
         $this->data_retorno = $data_retorno;
-        $this->descricao = $descricao;
+        $this->motivo = $motivo;
+        $this->documento = $documento;
     }
 
     
@@ -29,18 +31,21 @@ class Viagem {
         $this->destino = $destino;
     }
 
-    public function setDataSaida($data_saida) {
-        $this->data_saida = $data_saida;
+    public function setDataIda($data_ida) {
+        $this->data_ida = $data_ida;
     }
 
     public function setDataRetorno($data_retorno) {
         $this->data_retorno = $data_retorno;
     }
+     public function setMotivo($motivo) {
+        $this->motivo = $motivo;
+    }
 
-    public function setDescricao($descricao) {
-        if (empty($descricao))
-            throw new Exception("Erro: Descrição deve ser informada!");
-        $this->descricao = $descricao;
+    public function setDocumento($documento) {
+        if (empty($documento))
+            throw new Exception("Erro:O documento não foiu adicionado!");
+        $this->documento = $documento;
     }
 
   
@@ -52,35 +57,39 @@ class Viagem {
         return $this->destino;
     }
 
-    public function getDataSaida(): string {
-        return $this->data_saida;
+    public function getDataIda(): string {
+        return $this->data_ida;
     }
 
     public function getDataRetorno(): string {
         return $this->data_retorno;
     }
-
-    public function getDescricao(): string {
-        return $this->descricao;
+     public function getMotivo(): string {
+        return $this->motivo;
+    }
+    public function getDocumento(): string {
+        return $this->documento;
     }
 
 
     public function __toString(): string {
         return "Viagem: $this->id - $this->destino
-                | Saída: $this->data_saida
+                | Saída: $this->data_ida
                 | Retorno: $this->data_retorno
-                | Descrição: $this->descricao";
+                | Motivo: $this->motivo
+                | Documento: $this->documento";
     }
 
 
     public function inserir(): bool {
-        $sql = "INSERT INTO viagem (destino, data_saida, data_retorno, descricao)
-                VALUES (:destino, :data_saida, :data_retorno, :descricao)";
+        $sql = "INSERT INTO viagem (destino, data_ida, data_retorno, motivo, documento)
+                VALUES (:destino, :data_ida, :data_retorno,:motivo, :documento)";
         $params = array(
             ':destino' => $this->getDestino(),
-            ':data_saida' => $this->getDataSaida(),
+            ':data_ida' => $this->getDataIda(),
             ':data_retorno' => $this->getDataRetorno(),
-            ':descricao' => $this->getDescricao()
+            ':motivo' => $this->getMotivo(),
+            ':documento' => $this->getDocumento()
         );
         return Database::executar($sql, $params) !== false;
     }
@@ -96,6 +105,7 @@ class Viagem {
                 $sql .= " WHERE destino LIKE :info ORDER BY destino";
                 $info = '%' . $info . '%';
                 break;
+           
         }
 
         $parametros = [];
@@ -107,9 +117,10 @@ class Viagem {
             $viagem = new Viagem(
                 $registro['id'],
                 $registro['destino'],
-                $registro['data_saida'],
+                $registro['data_ida'],
                 $registro['data_retorno'],
-                $registro['descricao']
+                $registro['motivo'],
+                $registro['documento']
             );
             array_push($viagens, $viagem);
         }
@@ -120,16 +131,18 @@ class Viagem {
     public function alterar(): bool {
         $sql = "UPDATE viagem
                    SET destino = :destino,
-                       data_saida = :data_saida,
+                       data_ida = :data_ida,
                        data_retorno = :data_retorno,
-                       descricao = :descricao
+                       motivo = motivo
+                       documento = :documento
                  WHERE id = :id";
         $params = array(
             ':id' => $this->getId(),
             ':destino' => $this->getDestino(),
-            ':data_saida' => $this->getDataSaida(),
+            ':data_ida' => $this->getDataIda(),
             ':data_retorno' => $this->getDataRetorno(),
-            ':descricao' => $this->getDescricao()
+            ':motivo' => $this ->getMotivo(),
+            ':documento' => $this->getDocumento()
         );
         return Database::executar($sql, $params) !== false;
     }

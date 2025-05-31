@@ -17,7 +17,7 @@ if (isset($_FILES['documuneto']) && $_FILES['documuneto']['error'] == UPLOAD_ERR
 
     $acao = $_POST['acao'] ?? "";
 
-    $viagem = new Viagem($id, $destino, $data_ida, $data_retorno, $motivo, $caminho_anexo);
+    $viagem = new Viagem($id, $destino, $data_ida, $data_retorno, $motivo, $documento );
     //cria obj viagem
     if ($acao == 'salvar') {
         $resultado = ($id > 0) ? $viagem->alterar() : $viagem->inserir();
@@ -37,7 +37,7 @@ if (isset($_FILES['documuneto']) && $_FILES['documuneto']['error'] == UPLOAD_ERR
     $formulario = str_replace('{data_ida}', $viagem?->getDataIda() ?? '', $formulario);
     $formulario = str_replace('{data_retorno}', $viagem?->getDataRetorno() ?? '', $formulario);
     $formulario = str_replace('{motivo}', $viagem?->getMotivo() ?? '', $formulario);
-     $formulario = str_replace('{documento}', $viagem?->getDocumeto() ?? '', $formulario);
+    $formulario = str_replace('{documento}', $viagem?->getDocumeto() ?? '', $formulario);
 
     echo $formulario;
     include_once('lista_viagem.php');
