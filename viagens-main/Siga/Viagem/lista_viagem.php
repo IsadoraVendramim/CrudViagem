@@ -1,7 +1,9 @@
 <?php
 require_once("../Classes/Viagem.class.php");
 
-$lista = Viagem::listar();
+ $tipo = $_GET['tipo'] ?$_GET['tipo'] : 0;
+ $busca = $_GET['busca'] ?$_GET['busca'] : 0;
+$lista = Viagem::listar($tipo, $busca);
 $tabela = file_get_contents('listagem_viagem.html');
 $item = file_get_contents('itens_listagem_viagem.html');
 $itens = '';

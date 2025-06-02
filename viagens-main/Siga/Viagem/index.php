@@ -1,6 +1,7 @@
 <?php
 require_once("../Classes/Viagem.class.php");
 
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST['id'] ?? 0;
     $destino = $_POST['destino'] ?? "";

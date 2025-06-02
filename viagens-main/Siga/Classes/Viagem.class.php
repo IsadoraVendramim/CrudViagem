@@ -99,19 +99,32 @@ class Viagem {
         $sql = "SELECT * FROM viagem";
         switch ($tipo) {
             case 1:
-                $sql .= " WHERE id = :info ORDER BY id";
+                $sql .= " WHERE id = :info";
+                $params = ['info' => $info];
                 break;
             case 2:
-                $sql .= " WHERE motivo LIKE :info ORDER BY motivo";
-                $info = '%' . $info . '%';
+                $sql .= " WHERE motivo like :info";
+                $params = ['info' => '%' .$info. '%'];
                 break;
             case 3:
-                $sql .= " WHERE destino LIKE :info ORDER BY destino";
-                $info = '%' . $info . '%';
+                $sql .= " WHERE destino like :info";
+                $params = ['info' => '%' .$info. '%'];
                 break;
            
         }
 
+        /* public static function listar($tipo = 0, $info = ''): array {
+        $sql = "SELECT * FROM planta";
+        $param = [];
+
+        if ($tipo == 1) {
+            $sql .= " WHERE id = :info";
+            $param = [':info' => $info];
+        } elseif ($tipo == 2) {
+            $sql .= " WHERE nome LIKE :info";
+            $param = [':info' => "%$info%"];
+        }
+            */
         $parametros = [];
         if ($tipo > 0) $parametros = [':info' => $info];
 
